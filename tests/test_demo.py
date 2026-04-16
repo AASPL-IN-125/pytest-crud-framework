@@ -4,7 +4,7 @@ import pytest
 import logging
 
 logging.basicConfig(level=logging.INFO) 
-from src.constants.API_CONSTANT import get_all_user_url, post_user_url, headers, get_user_by_id_url
+from src.constants.api_constant import get_all_user_url, get_user_by_id_url, post_user_url, put_user_url, delete_user_url, headers
 from src.helpers.payload_manager import create_user_payload, update_user_payload   
 from src.utils.utils import get_request, post_request, put_request, delete_request
 
