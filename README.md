@@ -299,14 +299,100 @@ allure serve reports
 
 ---
 
-## Troubleshooting
+## GitHub Actions CI/CD Pipeline
 
-| Issue | Solution |
-|-------|----------|
-| Import errors | Ensure all packages from requirements.txt are installed |
-| Report not generated | Check write permissions in `reports/` directory |
-| API endpoint unreachable | Verify internet connection and JSONPlaceholder API availability |
-| Tests timeout | Increase timeout settings or check network connectivity |
+This project includes an automated CI/CD workflow that runs tests automatically on every push to the main branch.
+
+### Automatic Pipeline Triggers
+
+The workflow (`.github/workflows/ci.yml`) is automatically triggered by:
+
+1. **Push to Main Branch** - Workflow runs immediately after any commit is pushed to `main`
+2. **Pull Request to Main** - Workflow runs to validate all changes before merging
+3. **Manual Trigger** - Can be manually triggered from GitHub Actions tab anytime
+
+### Pipeline Workflow Steps
+
+The CI/CD pipeline performs these steps automatically:
+
+1. ✅ **Checkout** - Retrieves the latest code from repository
+2. ✅ **Setup Python** - Configures Python 3.10, 3.11, and 3.12 environments
+3. ✅ **Install Dependencies** - Installs all packages from `requirements.txt`
+4. ✅ **Verify pytest-html** - Confirms HTML report plugin is available
+5. ✅ **Run Tests** - Executes `pytest -v --html=report.html --self-contained-html`
+6. ✅ **Upload Report** - Stores HTML report as GitHub Actions artifact
+7. ✅ **Display Summary** - Shows completion status and artifact location
+
+### Accessing Test Reports
+
+After each pipeline run:
+
+1. Go to GitHub repository → **Actions** tab
+2. Click on the latest workflow run
+3. Scroll down to **Artifacts** section
+4. Download `pytest-report-python-*.html` file
+5. Open in browser to view detailed test results
+
+### GitHub Actions Status Badge
+
+Add this to your repository README to show pipeline status:
+
+```markdown
+[![Pytest API Automation CI/CD](https://github.com/AASPL-IN-125/pytest-crud-framework/actions/workflows/ci.yml/badge.svg)](https://github.com/AASPL-IN-125/pytest-crud-framework/actions/workflows/ci.yml)
+```
+
+### Pipeline Configuration
+
+**File:** `.github/workflows/ci.yml`
+
+**Key Configuration:**
+- **Runs on:** Ubuntu Latest
+- **Python Versions:** 3.10, 3.11, 3.12
+- **Report Retention:** 30 days
+- **Continue on Error:** Tests don't block artifact upload
+
+### Workflow Triggers in Action
+
+```
+Developer pushes code to main
+        ↓
+GitHub detects push event
+        ↓
+CI/CD workflow automatically starts
+        ↓
+Tests run in parallel (multiple Python versions)
+        ↓
+HTML reports generated
+        ↓
+Reports uploaded as artifacts
+        ↓
+Developer notified of results
+```
+
+### Manual Workflow Trigger
+
+To manually run the workflow without pushing code:
+
+1. Go to GitHub repository → **Actions** tab
+2. Click on "Pytest API Automation CI/CD" workflow
+3. Click "Run workflow" button
+4. Select branch (main) and click "Run workflow"
+5. Workflow starts executing immediately
+
+### Monitoring Pipeline Status
+
+**View pipeline status:**
+- GitHub repository → Actions tab → Pytest API Automation CI/CD
+- Check build status badge at repository top
+- Receive GitHub notifications for pass/fail
+
+**Common Pipeline Issues:**
+
+| Issue | Cause | Solution |
+|-------|-------|----------|
+| Tests fail in pipeline | Code or dependency issue | Check logs in GitHub Actions |
+| No artifacts generated | Test error prevents report | Review test output |
+| Timeout errors | Tests taking too long | Optimize test performance |
 
 ---
 
@@ -317,7 +403,20 @@ allure serve reports
 - [ ] Add API authentication (OAuth, JWT)
 - [ ] Create custom fixtures for common test scenarios
 - [ ] Add performance testing capabilities
-- [ ] Integrate with CI/CD pipeline
+- [ ] Add scheduled pipeline runs (nightly tests)
+- [ ] Integrate with Slack notifications for pipeline status
+
+---
+
+## Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| Import errors | Ensure all packages from requirements.txt are installed |
+| Report not generated | Check write permissions in `reports/` directory |
+| API endpoint unreachable | Verify internet connection and JSONPlaceholder API availability |
+| Tests timeout | Increase timeout settings or check network connectivity |
+| Pipeline not triggering | Ensure branch is `main` and commit was pushed to origin |
 
 ---
 

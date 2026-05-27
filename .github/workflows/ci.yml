@@ -1,11 +1,16 @@
 name: Pytest API Automation CI/CD
 
-# Trigger workflow on push and pull request to main branch
+# Automatically trigger workflow on:
+# 1. Push to main branch - runs immediately after push
+# 2. Pull request to main branch - runs before merge
+# 3. Manual trigger - run from GitHub Actions tab anytime
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
+    description: 'Manually trigger the workflow'
 
 # Define jobs
 jobs:
