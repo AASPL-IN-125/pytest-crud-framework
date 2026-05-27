@@ -4,6 +4,7 @@ name: Pytest API Automation CI/CD
 # 1. Push to main branch - runs immediately after push
 # 2. Pull request to main branch - runs before merge
 # 3. Manual trigger - run from GitHub Actions tab anytime
+# Version: 2.0 (Updated with latest GitHub Actions)
 on:
   push:
     branches: [ main ]
